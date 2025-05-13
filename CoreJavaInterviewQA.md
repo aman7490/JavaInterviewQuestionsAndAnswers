@@ -460,4 +460,301 @@ public void toggleFlag() {
 }
 ```
 
+------------------------------------------------------------------------
+
+Absolutely! Let's revisit **Comparable** and **Comparator** interfaces in Java, with in-depth descriptions and detailed examples to make it easier for you to revise and remember.
+
 ---
+
+### **1. Comparable Interface**
+
+The **Comparable** interface is used to define the natural ordering of objects. A class that implements **Comparable** allows its objects to be sorted based on a specific criterion. The **compareTo()** method is used to compare the current object with the specified object.
+
+#### **Key Points**
+
+* The **Comparable** interface is part of the **java.lang** package.
+* It has one method to implement: **int compareTo(T o)**.
+* The method should return:
+
+    * **Negative integer** if the current object is less than the other object.
+    * **Zero** if the current object is equal to the other object.
+    * **Positive integer** if the current object is greater than the other object.
+
+#### **Example of Comparable**
+
+Let's say we have a **Person** class, and we want to sort people based on their age.
+
+```java
+import java.util.*;
+
+class Person implements Comparable<Person> {
+    String name;
+    int age;
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    // Implementing the compareTo method to sort based on age
+    @Override
+    public int compareTo(Person other) {
+        // Sorting by age in ascending order
+        return this.age - other.age;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{name='" + name + "', age=" + age + '}';
+    }
+}
+
+public class ComparableExample {
+    public static void main(String[] args) {
+        List<Person> people = Arrays.asList(
+            new Person("John", 25),
+            new Person("Alice", 30),
+            new Person("Bob", 20)
+        );
+
+        // Sorting using Comparable (based on age)
+        Collections.sort(people);
+        people.forEach(System.out::println);  // The list will be sorted by age
+    }
+}
+```
+
+#### **Output:**
+
+```
+Person{name='Bob', age=20}
+Person{name='John', age=25}
+Person{name='Alice', age=30}
+```
+
+In this example, the `compareTo()` method compares `Person` objects by their age. The `Collections.sort()` method sorts the list based on the natural ordering defined by `compareTo()`.
+
+---
+
+### **2. Comparator Interface**
+
+The **Comparator** interface is used to define custom sorting logic. It can be used when we want to sort objects in multiple ways (for example, sorting a list of people first by name and then by age).
+
+#### **Key Points**
+
+* The **Comparator** interface is part of the **java.util** package.
+* It has two key methods:
+
+    * **int compare(T o1, T o2)**: Compares two objects.
+    * **boolean equals(Object obj)**: (Optional) Determines whether two comparators are equal.
+* **Comparator** can be used to sort objects in a way that is not necessarily the natural order (defined by **Comparable**).
+
+#### **Example of Comparator**
+
+Let's say we have a **Person** class, and we want to sort people by name or age. Here, we'll use a **Comparator** to sort by name.
+
+```java
+import java.util.*;
+
+class Person {
+    String name;
+    int age;
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{name='" + name + "', age=" + age + '}';
+    }
+}
+
+class NameComparator implements Comparator<Person> {
+    @Override
+    public int compare(Person p1, Person p2) {
+        return p1.name.compareTo(p2.name);  // Compare by name
+    }
+}
+
+class AgeComparator implements Comparator<Person> {
+    @Override
+    public int compare(Person p1, Person p2) {
+        return Integer.compare(p1.age, p2.age);  // Compare by age
+    }
+}
+
+public class ComparatorExample {
+    public static void main(String[] args) {
+        List<Person> people = Arrays.asList(
+            new Person("John", 25),
+            new Person("Alice", 30),
+            new Person("Bob", 20)
+        );
+
+        // Sorting by name
+        Collections.sort(people, new NameComparator());
+        System.out.println("Sorted by name:");
+        people.forEach(System.out::println);
+
+        // Sorting by age
+        Collections.sort(people, new AgeComparator());
+        System.out.println("\nSorted by age:");
+        people.forEach(System.out::println);
+    }
+}
+```
+
+#### **Output:**
+
+```
+Sorted by name:
+Person{name='Alice', age=30}
+Person{name='Bob', age=20}
+Person{name='John', age=25}
+
+Sorted by age:
+Person{name='Bob', age=20}
+Person{name='John', age=25}
+Person{name='Alice', age=30}
+```
+
+Here, **NameComparator** sorts by the person's name in lexicographical order, and **AgeComparator** sorts by the person's age in ascending order.
+
+---
+
+### **Using Comparator with Lambda Expression**
+
+Java 8 introduced lambda expressions, which can be used to define comparators more concisely.
+
+#### **Example with Lambda Expression:**
+
+You can use **lambda expressions** to sort in a more compact way.
+
+```java
+import java.util.*;
+
+class Person {
+    String name;
+    int age;
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{name='" + name + "', age=" + age + '}';
+    }
+}
+
+public class ComparatorWithLambda {
+    public static void main(String[] args) {
+        List<Person> people = Arrays.asList(
+            new Person("John", 25),
+            new Person("Alice", 30),
+            new Person("Bob", 20)
+        );
+
+        // Sorting by name using lambda
+        people.sort((p1, p2) -> p1.name.compareTo(p2.name));
+        System.out.println("Sorted by name using lambda:");
+        people.forEach(System.out::println);
+
+        // Sorting by age using lambda
+        people.sort((p1, p2) -> Integer.compare(p1.age, p2.age));
+        System.out.println("\nSorted by age using lambda:");
+        people.forEach(System.out::println);
+    }
+}
+```
+
+#### **Output:**
+
+```
+Sorted by name using lambda:
+Person{name='Alice', age=30}
+Person{name='Bob', age=20}
+Person{name='John', age=25}
+
+Sorted by age using lambda:
+Person{name='Bob', age=20}
+Person{name='John', age=25}
+Person{name='Alice', age=30}
+```
+
+In this example, we use lambda expressions to define the sorting logic directly inside the `sort()` method.
+
+---
+
+### **Using Comparator in Java 8 with `Comparator` Default Methods**
+
+Java 8 introduced several default methods in the **Comparator** interface:
+
+1. **reversed()**: Reverses the order of the comparator.
+2. **thenComparing()**: Allows for multi-level sorting (i.e., sorting first by one field, then by another if the first is equal).
+3. **comparing()**: A static method to create comparators.
+
+#### **Example with Default Methods:**
+
+Let's say we want to sort by age first, and if two people have the same age, we want to sort them by name.
+
+```java
+import java.util.*;
+
+class Person {
+    String name;
+    int age;
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{name='" + name + "', age=" + age + '}';
+    }
+}
+
+public class ComparatorWithDefaultMethods {
+    public static void main(String[] args) {
+        List<Person> people = Arrays.asList(
+            new Person("John", 25),
+            new Person("Alice", 30),
+            new Person("Bob", 25),
+            new Person("Charlie", 20)
+        );
+
+        // Sorting by age first, and if ages are equal, sorting by name
+        people.sort(Comparator.comparingInt(Person::getAge).thenComparing(Person::getName));
+        people.forEach(System.out::println);
+    }
+}
+```
+
+#### **Output:**
+
+```
+Person{name='Charlie', age=20}
+Person{name='John', age=25}
+Person{name='Bob', age=25}
+Person{name='Alice', age=30}
+```
+
+Here, we used **`Comparator.comparingInt()`** to sort by age, and **`thenComparing()`** to apply secondary sorting by name.
+
+---
+
+### **Conclusion**
+
+* **Comparable** is used for defining the natural order of objects, and it requires the implementation of the **compareTo()** method.
+* **Comparator** allows for custom sorting logic, providing flexibility to define sorting mechanisms externally. It provides two important methods:
+
+    * **compare()**: Used for comparing two objects.
+    * **equals()**: Optional, for equality checks between comparators.
+* Java 8 introduced default methods in **Comparator**, such as **reversed()**, **thenComparing()**, and **comparing()**, which make the sorting process much more streamlined and declarative.
+
+By using **Comparable** and **Comparator**, you can sort your data in different ways, whether by natural order or using custom criteria, giving you full control over the sorting process.
