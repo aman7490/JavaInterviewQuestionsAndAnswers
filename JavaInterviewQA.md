@@ -1,3 +1,50 @@
+📚 Java Interview Questions – Index
+✅ Basic Java Concepts
+What is Java?
+
+Difference between JDK, JRE, and JVM
+
+Difference between == and .equals()
+
+What is Inheritance?
+
+What is Polymorphism?
+
+Difference between Method Overloading and Overriding
+
+Abstract Class vs Interface
+
+Exception Handling in Java
+
+Difference between final, finally, and finalize()
+
+Access Modifiers in Java
+
+🚀 Advanced Java Concepts
+ArrayList vs Vector
+
+Garbage Collection in Java
+
+How HashMap Works Internally
+
+Java Memory Model (JMM)
+
+Common Pitfalls in Multithreading
+
+Callable and Future Interfaces
+
+The volatile Keyword
+
+🔍 Java Sorting Interfaces
+Comparable Interface
+
+Comparator Interface
+
+Comparator with Lambda Expressions
+
+Comparator with Java 8 Default Methods
+
+
 ## ✅ 1. What is Java?
 
 ### 📘 Detailed Answer:
